@@ -116,6 +116,15 @@ class FileUploadService {
       case 'cpp':
       case 'c':
         return FileType.cpp;
+      case 'jpg':
+      case 'jpeg':
+        return FileType.jpg;
+      case 'png':
+        return FileType.png;
+      case 'gif':
+        return FileType.gif;
+      case 'svg':
+        return FileType.svg;
       default:
         return FileType.other;
     }
@@ -176,6 +185,10 @@ enum FileType {
   python,
   java,
   cpp,
+  jpg,
+  png,
+  gif,
+  svg,
   other,
 }
 
@@ -204,6 +217,14 @@ extension FileTypeExtension on FileType {
         return 'Java';
       case FileType.cpp:
         return 'C/C++';
+      case FileType.jpg:
+        return 'JPG Image';
+      case FileType.png:
+        return 'PNG Image';
+      case FileType.gif:
+        return 'GIF Image';
+      case FileType.svg:
+        return 'SVG Image';
       case FileType.other:
         return 'Other';
     }
@@ -233,6 +254,11 @@ extension FileTypeExtension on FileType {
         return Colors.red.shade700;
       case FileType.cpp:
         return Colors.blue.shade900;
+      case FileType.jpg:
+      case FileType.png:
+      case FileType.gif:
+      case FileType.svg:
+        return Colors.pink.shade400;
       case FileType.other:
         return Colors.grey.shade600;
     }
@@ -262,6 +288,11 @@ extension FileTypeExtension on FileType {
         return Icons.coffee;
       case FileType.cpp:
         return Icons.code;
+      case FileType.jpg:
+      case FileType.png:
+      case FileType.gif:
+      case FileType.svg:
+        return Icons.image;
       case FileType.other:
         return Icons.insert_drive_file;
     }

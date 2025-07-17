@@ -116,17 +116,21 @@ class FileViewerPage extends StatelessWidget {
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(12),
-                child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16),
-                  child: SelectableText(
-                    file.content,
-                    style: GoogleFonts.jetBrainsMono(
-                      fontSize: 14,
-                      height: 1.5,
-                      color: Colors.black87,
-                    ),
-                  ),
-                ),
+                child: file.type == FileType.jpg ||
+                        file.type == FileType.png ||
+                        file.type == FileType.gif
+                    ? Image.memory(file.bytes, fit: BoxFit.contain)
+                    : SingleChildScrollView(
+                        padding: const EdgeInsets.all(16),
+                        child: SelectableText(
+                          file.content,
+                          style: GoogleFonts.jetBrainsMono(
+                            fontSize: 14,
+                            height: 1.5,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ),
               ),
             ),
           ),

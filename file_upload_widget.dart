@@ -148,14 +148,13 @@ class _FileUploadWidgetState extends State<FileUploadWidget> {
                       ),
                       const Spacer(),
                       if (_fileService.uploadedFiles.isNotEmpty)
-                        TextButton.icon(
+                        TextButton(
                           onPressed: () {
                             final content = _fileService.getAllContentForAI();
                             widget.onFilesUploaded?.call(content);
                             Navigator.pop(context);
                           },
-                          icon: const Icon(Icons.smart_toy, size: 16),
-                          label: Text(
+                          child: Text(
                             'Send to AI',
                             style: GoogleFonts.poppins(fontWeight: FontWeight.w500),
                           ),
