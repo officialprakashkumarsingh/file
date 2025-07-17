@@ -159,8 +159,8 @@ class FileUploadService {
 
 class UploadedFile {
   final String name;
-  final String content;
-  final Uint8List bytes;
+  String content;
+  Uint8List bytes;
   final FileType type;
   final DateTime uploadTime;
 

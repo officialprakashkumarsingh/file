@@ -1,15 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'dart:convert';
+import 'dart:typed_data';
 import 'file_upload_service.dart';
+import 'ai_edit_service.dart';
 
-class FileViewerPage extends StatelessWidget {
+class FileViewerPage extends StatefulWidget {
   final UploadedFile file;
 
   const FileViewerPage({
     super.key,
     required this.file,
   });
+
+  @override
+  State<FileViewerPage> createState() => _FileViewerPageState();
+}
+
+class _FileViewerPageState extends State<FileViewerPage> {
+  late UploadedFile file;
+
+  @override
+  void initState() {
+    super.initState();
+    file = widget.file;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -45,6 +61,10 @@ class FileViewerPage extends StatelessWidget {
           ],
         ),
         actions: [
+          IconButton(
+            onPressed: () => _editWithAI(context),
+            icon: const Icon(Icons.auto_fix_high, color: Colors.black87),
+          ),
           IconButton(
             onPressed: () => _copyToClipboard(context),
             icon: const Icon(Icons.copy, color: Colors.black87),
@@ -139,6 +159,59 @@ class FileViewerPage extends StatelessWidget {
         ],
       ),
     );
+  }
+
+  Future<void> _editWithAI(BuildContext context) async {
+    final controller = TextEditingController();
+    final instruction = await showDialog<String>(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text('Edit with AI'),
+        content: TextField(
+          controller: controller,
+          decoration: const InputDecoration(hintText: 'Describe your change'),
+          maxLines: 5,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(context),
+            child: const Text('Cancel'),
+          ),
+          TextButton(
+            onPressed: () => Navigator.pop(context, controller.text),
+            child: const Text('Submit'),
+          ),
+        ],
+      ),
+    );
+
+    if (instruction == null || instruction.trim().isEmpty) return;
+
+    try {
+      final service = AiEditService();
+      final newContent = await service.editFile(instruction, file.content);
+      setState(() {
+        file.content = newContent;
+        file.bytes = Uint8List.fromList(utf8.encode(newContent));
+      });
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('File updated via AI'),
+            backgroundColor: Colors.green,
+          ),
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text('AI edit failed: $e'),
+            backgroundColor: Colors.red,
+          ),
+        );
+      }
+    }
   }
 
   void _copyToClipboard(BuildContext context) {

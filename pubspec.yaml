@@ -16,6 +16,8 @@ dependencies:
   file_picker: ^6.1.1
   archive: ^3.4.9
   path_provider: ^2.1.1
+  http: ^1.1.0
+  diff_match_patch: ^0.4.1
   
   # Other dependencies (assuming these are needed based on the code)
   cupertino_icons: ^1.0.6
