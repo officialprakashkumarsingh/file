@@ -1,0 +1,29 @@
+name: aham_ai
+description: A Flutter AI chat application
+version: 1.0.0+1
+
+environment:
+  sdk: '>=3.0.0 <4.0.0'
+
+dependencies:
+  flutter:
+    sdk: flutter
+  
+  # UI and fonts
+  google_fonts: ^6.1.0
+  
+  # File handling
+  file_picker: ^6.1.1
+  archive: ^3.4.9
+  path_provider: ^2.1.1
+  
+  # Other dependencies (assuming these are needed based on the code)
+  cupertino_icons: ^1.0.6
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  flutter_lints: ^3.0.0
+
+flutter:
+  uses-material-design: true
