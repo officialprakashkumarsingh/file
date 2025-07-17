@@ -10,11 +10,10 @@ class AiEditService {
     final messages = [
       {
         'role': 'user',
-        'content':
-            'Apply the following changes to the file and return only the updated file content.\n'
-                '$instructions\n\n```
-$content
-```'
+        'content': '''Apply the following changes to the file and return only the updated file content.
+$instructions
+
+```$content```''',
       }
     ];
 
