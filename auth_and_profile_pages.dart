@@ -370,18 +370,6 @@ class _AuthPageState extends State<_AuthPage> {
             color: Colors.grey.shade600, 
             size: 20,
           ),
-          suffixIcon: FileUploadWidget(
-            onFilesUploaded: (content) {
-              // Handle uploaded files content for AI processing
-              print('Files uploaded for AI: $content');
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text('Files uploaded and ready for AI processing'),
-                  backgroundColor: Colors.green,
-                ),
-              );
-            },
-          ),
           filled: false,
           contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
           border: InputBorder.none,
