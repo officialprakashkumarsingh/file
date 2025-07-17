@@ -6,6 +6,7 @@ import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:http/http.dart' as http;
 import 'models.dart';
 import 'character_service.dart';
+import 'file_upload_widget.dart';
 
 /* ----------------------------------------------------------
    CHAT PAGE
@@ -389,6 +390,10 @@ class ChatPageState extends State<ChatPage> {
             awaitingReply: _awaitingReply,
             isEditing: _editingMessageId != null,
             onCancelEdit: _cancelEditing,
+            onFilesUploaded: (content) {
+              _controller.text = content;
+              _send();
+            },
           ),
         ),
       ],
@@ -505,6 +510,7 @@ class _InputBar extends StatelessWidget {
     required this.awaitingReply,
     required this.isEditing,
     required this.onCancelEdit,
+    this.onFilesUploaded,
   });
   final TextEditingController controller;
   final VoidCallback onSend;
@@ -512,6 +518,7 @@ class _InputBar extends StatelessWidget {
   final bool awaitingReply;
   final bool isEditing;
   final VoidCallback onCancelEdit;
+  final void Function(String)? onFilesUploaded;
 
   @override
   Widget build(BuildContext context) {
@@ -544,6 +551,8 @@ class _InputBar extends StatelessWidget {
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
+                if (onFilesUploaded != null)
+                  FileUploadWidget(onFilesUploaded: onFilesUploaded),
                 Expanded(
                   child: TextField(
                     controller: controller,

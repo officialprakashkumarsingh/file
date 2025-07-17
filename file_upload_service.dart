@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:file_picker/file_picker.dart';
+import 'package:file_picker/file_picker.dart' as fp;
 import 'package:archive/archive.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -16,10 +16,11 @@ class FileUploadService {
   // Upload and extract zip file
   Future<List<UploadedFile>> uploadZipFile() async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
+      fp.FilePickerResult? result = await fp.FilePicker.platform.pickFiles(
+        type: fp.FileType.custom,
         allowedExtensions: ['zip'],
         allowMultiple: false,
+        withData: true,
       );
 
       if (result != null && result.files.single.bytes != null) {
@@ -56,9 +57,10 @@ class FileUploadService {
   // Upload individual files
   Future<List<UploadedFile>> uploadIndividualFiles() async {
     try {
-      FilePickerResult? result = await FilePicker.platform.pickFiles(
+      fp.FilePickerResult? result = await fp.FilePicker.platform.pickFiles(
         allowMultiple: true,
-        type: FileType.any,
+        type: fp.FileType.any,
+        withData: true,
       );
 
       if (result != null) {
