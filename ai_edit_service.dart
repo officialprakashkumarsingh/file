@@ -9,11 +9,17 @@ class AiEditService {
   Future<String> editFile(String instructions, String content) async {
     final messages = [
       {
+        'role': 'system',
+        'content': 'You are a coding assistant. Apply the given changes and return only the updated file content.'
+      },
+      {
         'role': 'user',
-        'content': '''Apply the following changes to the file and return only the updated file content.
+        'content': '''
+Instructions:
 $instructions
 
-```$content```''',
+```$content```
+''',
       }
     ];
 
@@ -37,7 +43,8 @@ $instructions
       final data = json.decode(response.body) as Map<String, dynamic>;
       return data['choices'][0]['message']['content'] as String;
     } else {
-      throw Exception('AI request failed: ${response.statusCode}');
+      final error = response.body.isNotEmpty ? response.body : 'Unknown error';
+      throw Exception('AI request failed: ${response.statusCode} - $error');
     }
   }
 }
